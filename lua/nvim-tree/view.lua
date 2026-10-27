@@ -24,12 +24,12 @@ local BUFNR_PER_TAB = {}
 
 ---@type { name: string, value: any }[]
 local BUFFER_OPTIONS = {
-  { name = "bufhidden",  value = "wipe" },
-  { name = "buflisted",  value = false },
-  { name = "buftype",    value = "nofile" },
-  { name = "filetype",   value = "NvimTree" },
+  { name = "bufhidden", value = "wipe" },
+  { name = "buflisted", value = false },
+  { name = "buftype", value = "nofile" },
+  { name = "filetype", value = "NvimTree" },
   { name = "modifiable", value = false },
-  { name = "swapfile",   value = false },
+  { name = "swapfile", value = false },
 }
 
 ---@param bufnr integer
@@ -108,8 +108,15 @@ local function open_window()
   if config.g.view.float.enable then
     vim.api.nvim_open_win(0, true, open_win_config())
   else
-    vim.api.nvim_command("vsp")
-    M.reposition_window()
+    -- Attempt to fix window flickering when open nvim-tree
+    local side = config.g.view.side
+    local width = view_state.get_width
+    local position = side == "right" and "rightbelow" or "leftabove"
+
+    vim.cmd(string.format("%s %svsp", position, width))
+
+    -- vim.api.nvim_command("vsp")
+    -- M.reposition_window()
   end
   setup_tabpage(vim.api.nvim_get_current_tabpage())
   set_window_options_and_buffer()
