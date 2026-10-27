@@ -113,7 +113,7 @@ local function open_window()
     local width = view_state.get_width
     local position = side == "right" and "rightbelow" or "leftabove"
 
-    vim.cmd(string.format("%s %svsp", position, width))
+    vim.api.nvim_command(string.format("%s %svsp", position, width))
 
     -- vim.api.nvim_command("vsp")
     -- M.reposition_window()
