@@ -108,12 +108,12 @@ local function open_window()
   if config.g.view.float.enable then
     vim.api.nvim_open_win(0, true, open_win_config())
   else
-    -- Attempt to fix window flickering when open nvim-tree
+    -- Attempt to fix window flickering when opening nvim-tree
     local side = config.g.view.side
-    local width = view_state.get_width
+    local width = view_state.get_width()
     local position = side == "right" and "rightbelow" or "leftabove"
 
-    vim.api.nvim_command(string.format("%s %svsp", position, width))
+    vim.cmd(string.format("%s %svsp", position, width))
 
     -- vim.api.nvim_command("vsp")
     -- M.reposition_window()
